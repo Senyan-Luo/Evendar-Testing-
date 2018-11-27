@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Sign up today </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-auth.js"></script>
+
+
+
+    <!--  <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+<script src="../js/login.js"></script>
+ -->
+
+</head>
+
+<body class="container">
+    <header>
+        <nav class="navbar navbar-light fixed-top">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="../index.html">Logo Area</a>
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent22"
+                aria-controls="navbarSupportedContent22" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="animated-icon"><span></span><span></span><span></span></div>
+            </button>
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent22">
+                <!-- Links -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link " id="landing-page" href="../index.html" style="color:#ffffff; font-size:1.5em;">Home<span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="create-page" href="./login.html" style="color:#ffffff; font-size:1.5em;">Post
+                            Event | Edit Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="faq-page" href="./faq.html" style="color:#ffffff; font-size:1.5em;">FAQ</a>
+                    </li>
+                </ul>
+                <!-- Links -->
+            </div>
+            <!-- Collapsible content -->
+        </nav>
+        <!--/.Navbar-->
+    </header>
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-8">
+            <div class="card border-primary" style="margin-top:5%;">
+                <div class="card-header" align="center">Sign Up</div>
+                <div class="card-body text-primary">
+                    <form role="form" class="needs-validation" novalidate>
+                        <div class="form-row">
+
+                            <div class="form-group col-md-8">
+                                <label for="full-name">Full name</label>
+                                <input type="text" class="form-control" id="full-name" placeholder="e.g. Data Science Student Society"
+                                    required>
+                                <div class="invalid-feedback">
+                                    *required
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="acronym">Acronym</label>
+                                <input type="text" class="form-control" id="acronym" placeholder="e.g. DS3">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="student organization email"
+                                    required>
+                                <div class="invalid-feedback">
+                                    *required
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="password">Password (min. 6 charaters)</label>
+                                <input type="password" class="form-control" minlength=6 id="password" placeholder="Password"
+                                    required>
+                                <div class="invalid-feedback">
+                                    *password must be at least 6 characters long
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="facts">About Me</label>
+                            <textarea class="form-control" id="facts" rows="4" placeholder="Capture the purposes of the student organization that you represent"
+                                required></textarea>
+                            <div class="invalid-feedback">
+                                *Please provide a description of this student organization
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="form-check" style="margin-bottom: 3%;">
+                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                <h5>
+                                    I confirm that we are a registered UCSD student organization
+                                </h5>
+                                <div class="invalid-feedback">
+                                    Only UCSD student organizations are eligible to post events on Evendar, check the
+                                    <strong> <a target="_blank" href="https://studentorg.ucsd.edu/">list</a> </strong>
+                                    of registered student orgs on campus.
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <a id="signUp" style="margin:0 auto;" class="btn " type="submit">Sign Up</a>
+                            </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#signUp").on("click", function (event) {
+            event.preventDefault()
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    signUp()
+                }
+                form.classList.add('was-validated');
+            });
+
+
+        })
+
+        function signUp() {
+
+
+            var email = $("#email").val()
+            var password = $("#password").val()
+            var name = $("#full-name").val().trim()
+            var facts = $("#facts").val()
+            var acronym
+
+            if ($("#acronym").val() === null) {
+                acronym = $("#full-name").val().trim()
+            } else {
+                acronym = $("#acronym").val()
+            }
+
+
+            console.log(email, password)
+
+            firebase.auth().createUserWithEmailAndPassword(email, password).then(function (resp) {
+                console.log(typeof resp.user.uid)
+                var uid = resp.user.uid
+                usersRef.doc(email).set({
+                        email: email,
+                        name: name,
+                        acronym: acronym,
+                        facts: facts
+                    }).then(function (docRef) {
+                        console.log("Document written");
+                        alert(`Register successful! Sign in now to start posting`)
+                        window.location = "./login.html"
+                    })
+                    .catch(function (error) {
+                        console.error("Error adding document: ", error);
+                    });
+
+
+
+            }).catch(function (err) {
+                console.log(err)
+            });
+
+
+
+
+
+        }
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/app.js"></script>
+
+
+
+</body>
+
+</html>
